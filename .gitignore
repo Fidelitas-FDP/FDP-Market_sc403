@@ -1,0 +1,55 @@
+# --- Entorno Java / Maven ---
+target/
+*.class
+*.jar
+*.war
+*.ear
+*.log
+.mvn/
+mvnw*
+.classpath
+.project
+.settings/
+
+# --- IDEs / Editores ---
+# NetBeans (historial y configuraciones)
+nbproject/private/
+nbbuild/
+nbdist/
+.nbattrs
+build/
+dist/
+
+# VS Code
+.vscode/
+.history/
+*.code-workspace
+
+# IntelliJ
+.idea/
+*.iml
+*.iws
+
+# --- Documentación LaTeX ---
+*.aux
+*.log
+*.out
+*.toc
+*.lof
+*.lot
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+*.blg
+*.bbl
+*.bcf
+*.run.xml
+
+# --- Sistemas Operativos ---
+.DS_Store
+Thumbs.db
+ehthumbs.db
+
+# --- Archivos de Base de Datos ---
+*.db
+*.sqlite
