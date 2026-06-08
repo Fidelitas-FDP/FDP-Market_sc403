@@ -121,10 +121,10 @@ Para mantener la integridad del código, el equipo debe apegarse a este ciclo:
 
 ## 7. Equipo de Desarrollo
 
-* **[@Fidelitas-FDP]** - Scrum Master / Lead Backend (<u>Módulo 3</u>: Transacciones y Flujo Escrow)
-* **[@ortiz]** - Developer Backend (<u>Módulo 1</u>: Autenticación y Perfiles | <u>Módulo 4</u>: Auditoría)
-* **[@elOtro]** - Developer Fullstack (<u>Módulo 2</u>: Catálogo y Carrito)
-* **[@sol]** - QA & Developer (<u>Módulo 5</u>: Disputas | <u>Módulo 6</u>: Soporte | Documentación LaTeX)
+* [**@Fidelitas-FDP**](https://github.com/Fidelitas-FDP) - Scrum Master / Lead Backend (<u>Módulo 3</u>: Transacciones y Flujo Escrow)
+* [**@Andresitoo76**](https://github.com/Andresitoo76) - Developer Backend (<u>Módulo 1</u>: Autenticación y Perfiles | <u>Módulo 4</u>: Auditoría)
+* [**@Douglas1404a**](https://github.com/Douglas1404a) - Developer Fullstack (<u>Módulo 2</u>: Catálogo y Carrito)
+* [**@sdgselva**](https://github.com/sdgselva) - QA & Developer (<u>Módulo 5</u>: Disputas | <u>Módulo 6</u>: Soporte | Documentación LaTeX)
 
 ---
-*Proyecto universitario desarrollado para el curso SC-403.*
+*Proyecto universitario desarrollado para el curso SC-403: Desarrollo de Aplicaciones Web y Patrones.*
