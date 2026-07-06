@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Categorias OSRS</title>
+</head>
+<body>
+    <h2>Categorias Principales de Mercado</h2>
+    <ul>
+        <li th:each="cat : ${categorias}" th:text="${cat.nombre}">Categoria</li>
+    </ul>
+</body>
+</html>
