@@ -1,5 +1,7 @@
-DROP DATABASE IF EXISTS fdp_market_db;
-DROP USER IF EXISTS 'evaristo'@'localhost';
+
+-- DROP DATABASE IF EXISTS fdp_market_db;
+-- DROP USER IF EXISTS 'evaristo'@'localhost';
+
 
 CREATE DATABASE IF NOT EXISTS fdp_market_db CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
