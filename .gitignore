@@ -1,5 +1,10 @@
-# --- Entorno Java / Maven ---
 target/
+HELP.md
+.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+# --- Entorno Java / Maven ---
 *.class
 *.jar
 *.war
@@ -8,17 +13,22 @@ target/
 .mvn/
 mvnw*
 .classpath
+.apt_generated
 .project
 .settings/
+.factorypath
+.springBeans
+.sts4-cache
 
 # --- IDEs / Editores ---
 # NetBeans (historial y configuraciones)
-nbproject/private/
-nbbuild/
-nbdist/
-.nbattrs
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
 build/
-dist/
+
 
 # VS Code
 .vscode/
@@ -27,8 +37,9 @@ dist/
 
 # IntelliJ
 .idea/
-*.iml
 *.iws
+*.iml
+*.ipr
 
 # --- Documentación LaTeX ---
 *.aux
