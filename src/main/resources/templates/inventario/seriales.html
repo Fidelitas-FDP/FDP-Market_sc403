@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+    <head>
+        <meta charset="UTF-8"/>
+        <title>Inventario Stock Digital</title>
+    </head>
+    <body>
+        <h2>Credenciales Disponibles para Venta</h2>
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>ID Stock</th>
+                    <th>Datos Encriptados/Serial</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="item : ${seriales}">
+                    <td th:text="${item.id}"></td>
+                    <td th:text="${item.detalleCredencial}"></td>
+                </tr>
+            </tbody>
+        </table>
+    </body>
+</html>

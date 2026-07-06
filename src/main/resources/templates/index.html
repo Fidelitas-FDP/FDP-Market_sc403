@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>FDP Market - OSRS</title>
+        <meta charset="UTF-8"/>
+        <link href="/css/estilos.css" rel="stylesheet" type="text/css"/>
+    </head>
+    <body>
+        <header>
+            <nav>
+                <a class="logo nav-link" href="/">FDP Market</a>
+                <ul class="nav-menu" style="display: flex; list-style: none; gap: 15px;">
+                    <li><a class="nav-link" href="/categoria/listado">Categorías</a></li>
+                    <li><a class="nav-link" href="/orden/mis-compras/6">Mis Compras (Cliente 6)</a></li>
+                    <li><a class="nav-link" href="/disputa/panel">Panel de Soporte</a></li>
+                    <li><a class="nav-link" href="/usuario/registro">Registrarse</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <section style="padding: 20px;">
+            <h2>Bienvenido a la Plataforma de Comercio OSRS</h2>
+            <p>Selecciona una categoría de juego activa para explorar los anuncios:</p>
+            
+            <ul>
+                <li th:each="cat : ${categorias}" th:if="${cat.idPadre == null}">
+                    <a th:href="@{/anuncio/catalogo/{id}(id=${cat.id})}" th:text="${cat.nombre}"></a>
+                </li>
+            </ul>
+        </section>
+
+        <footer style="margin-top: 50px; border-top: 1px solid #ccc; padding-top: 10px;">
+            Todos los Derechos Reservados FDP Market 2026 &COPY;
+        </footer>
+    </body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+    <head>
+        <meta charset="UTF-8"/>
+        <title>Mis Ordenes</title>
+    </head>
+    <body>
+        <h2>Historial de Ordenes de Compra</h2>
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>ID Orden</th>
+                    <th>Articulo</th>
+                    <th>Cantidad</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="ord : ${ordenes}">
+                    <td th:text="${ord.id}"></td>
+                    <td th:text="${ord.anuncio.titulo}"></td>
+                    <td th:text="${ord.cantidad}"></td>
+                    <td th:text="${ord.estadoOrden.nombre}"></td>
+                    <td>
+                        <form th:if="${ord.estadoOrden.nombre == 'Retenida_Escrow'}" th:action="@{/orden/entregar}" method="post" style="display:inline;">
+                            <input type="hidden" name="idOrden" th:value="${ord.id}" />
+                            <input type="hidden" name="clienteId" th:value="${ord.cliente.id}" />
+                            <button type="submit">Marcar Entregado</button>
+                        </form>
+
+                        <form th:if="${ord.estadoOrden.nombre == 'Entregada_Manual'}" th:action="@{/orden/confirmar}" method="post" style="display:inline;">
+                            <input type="hidden" name="idOrden" th:value="${ord.id}" />
+                            <input type="hidden" name="clienteId" th:value="${ord.cliente.id}" />
+                            <button type="submit">Confirmar Recepcion Conforme</button>
+                        </form>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </body>
+</html>

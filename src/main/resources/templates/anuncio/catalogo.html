@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+    <head>
+        <meta charset="UTF-8"/>
+        <title>Catálogo de Anuncios</title>
+    </head>
+    <body>
+        <h2>Anuncios Activos</h2>
+
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>Titulo</th>
+                    <th>Precio</th>
+                    <th>Stock</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="anuncio : ${anuncios}">
+                    <td th:text="${anuncio.titulo}"></td>
+                    <td th:text="${anuncio.precioActual}"></td>
+                    <td th:text="${anuncio.stockGenerico != null ? anuncio.stockGenerico : 'Ilimitado'}"></td>
+                    <td>
+                        <form th:if="${anuncio.activo}" th:action="@{/anuncio/pausar}" method="post" style="display:inline;">
+                            <input type="hidden" name="idAnuncio" th:value="${anuncio.id}" />
+                            <input type="hidden" name="activo" th:value="false" />
+                            <input type="hidden" name="categoriaId" th:value="${anuncio.categoria.id}" />
+                            <button type="submit" style="background-color: #ff4d4d; color: white;">Pausar</button>
+                        </form>
+
+                        <form th:if="${!anuncio.activo}" th:action="@{/anuncio/activar}" method="post" style="display:inline;">
+                            <input type="hidden" name="idAnuncio" th:value="${anuncio.id}" />
+                            <input type="hidden" name="categoriaId" th:value="${anuncio.categoria.id}" />
+                            <button type="submit" style="background-color: #4CAF50; color: white;">Activar</button>
+                        </form>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </body>
+</html>

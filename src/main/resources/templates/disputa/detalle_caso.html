@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Auditoria de Conflicto</title>
+</head>
+<body>
+    <h2>Detalle del Caso # <span th:text="${disputa.id}"></span></h2>
+    <p>Articulo: <strong th:text="${disputa.orden.anuncio.titulo}"></strong></p>
+    <p>Comprador: <span th:text="${disputa.orden.cliente.correo}"></span></p>
+
+    <h3>Dictar Sentencia</h3>
+    <form th:action="@{/disputa/resolver}" method="post">
+        <input type="hidden" name="idDisputa" th:value="${disputa.id}" />
+        <input type="hidden" name="idModerador" th:value="1" /> <label>Resolucion:</label>
+        <select name="tipo">
+            <option value="Reembolso">Reembolsar al Cliente</option>
+            <option value="Liberacion">Liberar Fondos al Vendedor</option>
+        </select>
+        <br/><br/>
+        <label>Justificacion Tecnica:</label><br/>
+        <textarea name="justificacion" rows="4" cols="50" required="required"></textarea>
+        <br/><br/>
+        <button type="submit">Cerrar Caso e Inyectar Saldos</button>
+    </form>
+</body>
+</html>

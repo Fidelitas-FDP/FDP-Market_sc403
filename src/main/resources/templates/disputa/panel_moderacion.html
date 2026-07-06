@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Panel de Soporte</title>
+</head>
+<body>
+    <h2>Casos de Disputa Activos</h2>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Orden Ref</th>
+                <th>Comprador</th>
+                <th>Accion</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="disp : ${disputas}">
+                <td th:text="${disp.id}"></td>
+                <td th:text="${disp.orden.id}"></td>
+                <td th:text="${disp.orden.cliente.correo}"></td>
+                <td>
+                    <a th:href="@{/disputa/detalle/{id}(id=${disp.id})}">Auditar Caso</a>
+                </td>
+            </tr>
+        </tbody>
+    </tbody>
+</html>
