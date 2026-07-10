@@ -2,43 +2,55 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
-    <head>
-        <meta charset="UTF-8"/>
-        <title>Mis Ordenes</title>
-    </head>
+    <head th:replace="~{general/fragmentos :: head}"/>
     <body>
-        <h2>Historial de Ordenes de Compra</h2>
-        <table border="1">
-            <thead>
-                <tr>
-                    <th>ID Orden</th>
-                    <th>Articulo</th>
-                    <th>Cantidad</th>
-                    <th>Estado</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr th:each="ord : ${ordenes}">
-                    <td th:text="${ord.id}"></td>
-                    <td th:text="${ord.anuncio.titulo}"></td>
-                    <td th:text="${ord.cantidad}"></td>
-                    <td th:text="${ord.estadoOrden.nombre}"></td>
-                    <td>
-                        <form th:if="${ord.estadoOrden.nombre == 'Retenida_Escrow'}" th:action="@{/orden/entregar}" method="post" style="display:inline;">
-                            <input type="hidden" name="idOrden" th:value="${ord.id}" />
-                            <input type="hidden" name="clienteId" th:value="${ord.cliente.id}" />
-                            <button type="submit">Marcar Entregado</button>
-                        </form>
+        <header th:replace="~{general/fragmentos :: header}"/>
 
-                        <form th:if="${ord.estadoOrden.nombre == 'Entregada_Manual'}" th:action="@{/orden/confirmar}" method="post" style="display:inline;">
-                            <input type="hidden" name="idOrden" th:value="${ord.id}" />
-                            <input type="hidden" name="clienteId" th:value="${ord.cliente.id}" />
-                            <button type="submit">Confirmar Recepcion Conforme</button>
-                        </form>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+        <section class="container py-4">
+            <h2 th:text="#{orden.titulo_historial}">Historial de Ordenes de Compra</h2>
+
+            <table class="table table-striped table-hover align-middle shadow-sm mt-3">
+                <thead class="table-dark">
+                    <tr>
+                        <th th:text="#{orden.th_id}">ID Orden</th>
+                        <th th:text="#{orden.th_articulo}">Articulo</th>
+                        <th th:text="#{orden.th_cantidad}">Cantidad</th>
+                        <th th:text="#{orden.th_estado}">Estado</th>
+                        <th th:text="#{anuncio.th_acciones}">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="ord : ${ordenes}">
+                        <td th:text="${ord.id}"></td>
+                        <td th:text="${ord.anuncio.titulo}"></td>
+                        <td th:text="${ord.cantidad}"></td>
+                        <td>
+                            <span class="badge bg-secondary" th:text="${ord.estadoOrden.nombre}"></span>
+                        </td>
+                        <td>
+                            <form th:if="${ord.estadoOrden.nombre == 'Retenida_Escrow'}" th:action="@{/orden/entregar}" method="post" class="d-inline">
+                                <input type="hidden" name="idOrden" th:value="${ord.id}" />
+                                <input type="hidden" name="clienteId" th:value="${ord.cliente.id}" />
+                                <button type="submit" class="btn btn-sm btn-primary" th:text="#{orden.btn_entregar}">Marcar Entregado</button>
+                            </form>
+
+                            <form th:if="${ord.estadoOrden.nombre == 'Entregada_Manual'}" th:action="@{/orden/revertir}" method="post" class="d-inline">
+                                <input type="hidden" name="idOrden" th:value="${ord.id}" />
+                                <input type="hidden" name="clienteId" th:value="${ord.cliente.id}" />
+                                <button type="submit" class="btn btn-sm btn-warning text-white" th:text="#{orden.btn_revertir}">Revertir a Escrow</button>
+                            </form>
+
+                            <form th:if="${ord.estadoOrden.nombre == 'Entregada_Manual'}" th:action="@{/orden/confirmar}" method="post" class="d-inline">
+                                <input type="hidden" name="idOrden" th:value="${ord.id}" />
+                                <input type="hidden" name="clienteId" th:value="${ord.cliente.id}" />
+                                <button type="submit" class="btn btn-sm btn-success" th:text="#{orden.btn_confirmar}">Confirmar Recepcion</button>
+                            </form>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <footer th:replace="~{general/fragmentos :: footer}"/>
     </body>
 </html>

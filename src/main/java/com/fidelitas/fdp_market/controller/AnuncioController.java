@@ -20,11 +20,14 @@ public class AnuncioController {
         this.categoriaService = categoriaService;
     }
 
-    // hu9 - catalogo filtrado por categoria
+    // hu9 - catalogo filtrado por categoria (Modificado para mantener persistencia del menu)
     @GetMapping("/catalogo/{categoriaId}")
     public String verCatalogo(@PathVariable Long categoriaId, Model model) {
         List<Anuncio> anuncios = anuncioService.listarPorCategoriaCompleta(categoriaId);
         model.addAttribute("anuncios", anuncios);
+        
+        model.addAttribute("categorias", categoriaService.listarTodas());
+        
         return "anuncio/catalogo";
     }
 
@@ -40,5 +43,4 @@ public class AnuncioController {
         anuncioService.cambiarEstadoVisibilidad(idAnuncio, true);
         return "redirect:/anuncio/catalogo/" + categoriaId;
     }
-
 }

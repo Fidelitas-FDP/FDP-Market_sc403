@@ -1,0 +1,57 @@
+<head th:fragment="head">
+    <title>FDP Market - OSRS</title>
+    <meta charset="UTF-8"/>
+    <link th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" rel="stylesheet"/>
+    <link th:href="@{/webjars/font-awesome/css/all.css}" rel="stylesheet"/>
+    <script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+    <script th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script>
+</head>
+
+<header th:fragment="header">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand text-success fw-bold" href="/">FDP Market</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navGlobal">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navGlobal">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="dropCats" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Categorías
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="dropCats">
+                            <li th:each="cat : ${categorias}" th:if="${cat.padre == null}">
+                                <a class="dropdown-item" th:href="@{/anuncio/catalogo/{id}(id=${cat.id})}" th:text="${cat.nombre}"></a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item"><a class="nav-link" href="/orden/mis-compras/6">Mis Compras</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/disputa/panel">Panel de Soporte</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/usuario/registro">Registrarse</a></li>
+                </ul>
+
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="dropLang" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <td th:text="#{nav.idioma}"/>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropLang">
+                            <li><a class="dropdown-item" href="?lang=es">Español</a></li>
+                            <li><a class="dropdown-item" href="?lang=en">English</a></li>
+                            <li><a class="dropdown-item" href="?lang=fr">Français</a></li>
+                            <li><a class="dropdown-item" href="?lang=de">Deutsch</a></li>
+                            <li><a class="dropdown-item" href="?lang=pt_BR">Português</a></li>
+                            <li><a class="dropdown-item" href="?lang=zh_CN">简体中文</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<footer th:fragment="footer" class="p-2 mt-5 bg-dark text-white text-center">
+    <p class="lead mb-0">FDP Market 2026 &COPY;</p>
+</footer>

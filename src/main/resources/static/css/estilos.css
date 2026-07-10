@@ -1,0 +1,78 @@
+:root {
+    --osrs-bg: #0D303A;
+    --osrs-navbar: #144857;
+    --osrs-gold: #C89D4F;
+    --osrs-card: #ffffff;
+    --osrs-radius: 0.625rem;
+}
+
+/* Ajustes Estéticos Globales */
+body {
+    background-color: var(--osrs-bg) !important;
+    color: #ffffff !important;
+    font-family: system-ui, -apple-system, sans-serif;
+}
+
+/* Modificación de la barra de navegación para usar el color Figma */
+.navbar.bg-dark {
+    background-color: var(--osrs-navbar) !important;
+    border-bottom: 2px solid var(--osrs-gold);
+}
+
+.navbar .navbar-brand, .navbar .nav-link {
+    color: #ffffff !important;
+}
+
+.navbar .nav-link:hover {
+    color: var(--osrs-gold) !important;
+}
+
+/* Unificación estética de tablas y paneles */
+.table {
+    background-color: var(--osrs-card) !important;
+    color: #030213 !important;
+    border-radius: var(--osrs-radius);
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.15);
+}
+
+.table-dark {
+    background-color: var(--osrs-navbar) !important;
+    color: var(--osrs-gold) !important;
+}
+
+/* Componentes de interfaz, botones y formularios */
+.btn-primary, .btn-success {
+    background-color: var(--osrs-gold) !important;
+    border-color: var(--osrs-gold) !important;
+    color: #030213 !important;
+    font-weight: 600;
+    border-radius: var(--osrs-radius);
+}
+
+.btn-outline-danger {
+    color: #d4183d !important;
+    border-color: #d4183d !important;
+    border-radius: var(--osrs-radius);
+}
+
+.btn-outline-danger:hover {
+    background-color: #d4183d !important;
+    color: #ffffff !important;
+}
+
+.card {
+    background-color: var(--osrs-card) !important;
+    color: #030213 !important;
+    border-radius: var(--osrs-radius) !important;
+    border: none !important;
+}
+
+.nav-underline .nav-link.active {
+    color: var(--osrs-gold) !important;
+    border-bottom-color: var(--osrs-gold) !important;
+}
+
+.nav-underline .nav-link {
+    color: #ececf0 !important;
+}

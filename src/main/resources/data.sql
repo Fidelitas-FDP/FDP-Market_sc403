@@ -1,20 +1,20 @@
-USE fdp_market_db;
+USE FDP_MARKET_DB;
 
 -- ################
--- ### Usuarios ###
+-- ### USUARIOS ###
 -- ################
--- clave: 123456
-INSERT IGNORE INTO usuario (id, correo, clave_hash, id_rol, id_vendedor_padre, comision_subvendedor_pct, saldo_billetera) VALUES
-(1, 'admin@fdp.com', '$2a$12$j88egu93.ICRHf62UHQur.pTkIlqLkAwoqPYKRQCcxDAUXlN9fL7O', 1, NULL, NULL, 0.00),
-(2, 'mod1@fdp.com', '$2a$12$j88egu93.ICRHf62UHQur.pTkIlqLkAwoqPYKRQCcxDAUXlN9fL7O', 2, NULL, NULL, 0.00),
-(3, 'boglagold@vendor.com', '$2a$12$j88egu93.ICRHf62UHQur.pTkIlqLkAwoqPYKRQCcxDAUXlN9fL7O', 3, NULL, NULL, 1500.50),
-(4, 'worker1@vendor.com', '$2a$12$j88egu93.ICRHf62UHQur.pTkIlqLkAwoqPYKRQCcxDAUXlN9fL7O', 4, 3, 5.00, 45.00), 
-(5, 'sythe_seller@vendor.com', '$2a$12$j88egu93.ICRHf62UHQur.pTkIlqLkAwoqPYKRQCcxDAUXlN9fL7O', 3, NULL, NULL, 800.00),
-(6, 'cliente_baller@mail.com', '$2a$12$j88egu93.ICRHf62UHQur.pTkIlqLkAwoqPYKRQCcxDAUXlN9fL7O', 5, NULL, NULL, 5000.00),
-(7, 'cliente_pobre@mail.com', '$2a$12$j88egu93.ICRHf62UHQur.pTkIlqLkAwoqPYKRQCcxDAUXlN9fL7O', 5, NULL, NULL, 5.00);
+-- CLAVE: 123456
+INSERT IGNORE INTO USUARIO (ID, CORREO, CLAVE_HASH, ID_ROL, ID_VENDEDOR_PADRE, COMISION_SUBVENDEDOR_PCT, SALDO_BILLETERA) VALUES
+(1, 'ADMIN@FDP.COM', '$2A$12$J88EGU93.ICRHF62UHQUR.PTKILQLKAWOQPYKRQCCXDAUXLN9FL7O', 1, NULL, NULL, 0.00),
+(2, 'MOD1@FDP.COM', '$2A$12$J88EGU93.ICRHF62UHQUR.PTKILQLKAWOQPYKRQCCXDAUXLN9FL7O', 2, NULL, NULL, 0.00),
+(3, 'BOGLAGOLD@VENDOR.COM', '$2A$12$J88EGU93.ICRHF62UHQUR.PTKILQLKAWOQPYKRQCCXDAUXLN9FL7O', 3, NULL, NULL, 1500.50),
+(4, 'WORKER1@VENDOR.COM', '$2A$12$J88EGU93.ICRHF62UHQUR.PTKILQLKAWOQPYKRQCCXDAUXLN9FL7O', 4, 3, 5.00, 45.00), 
+(5, 'SYTHE_SELLER@VENDOR.COM', '$2A$12$J88EGU93.ICRHF62UHQUR.PTKILQLKAWOQPYKRQCCXDAUXLN9FL7O', 3, NULL, NULL, 800.00),
+(6, 'CLIENTE_BALLER@MAIL.COM', '$2A$12$J88EGU93.ICRHF62UHQUR.PTKILQLKAWOQPYKRQCCXDAUXLN9FL7O', 5, NULL, NULL, 5000.00),
+(7, 'CLIENTE_POBRE@MAIL.COM', '$2A$12$J88EGU93.ICRHF62UHQUR.PTKILQLKAWOQPYKRQCCXDAUXLN9FL7O', 5, NULL, NULL, 5.00);
 
 -- #############################
--- ### Anuncios / Multimedia ###
+-- ### ANUNCIOS / Multimedia ###
 -- #############################
 INSERT IGNORE INTO anuncio (id, id_usuario, id_categoria, titulo, descripcion, atributo_personalizado, precio_actual, stock_generico, tipo_entrega, activo) VALUES
 (1, 4, 1, 'Gold', 'Venta directa de oro', NULL, 0.25, 5000, 'Manual', TRUE),
@@ -79,10 +79,42 @@ INSERT IGNORE INTO inventario_serial (id_anuncio, detalle_credencial, id_orden_a
 (6, 'OSRS-PREP-30D-XXXX-7777', NULL),
 (6, 'OSRS-PREP-30D-XXXX-8888', NULL),
 (6, 'OSRS-PREP-30D-XXXX-9999', NULL),
-(11, 'pure1def@mail.com:pkpass123:0000(pin):B1C2D3E4F5G6H7I8J9K0L1M2N3O4P5Q6(32 digitos)', NULL),
-(12, 'ironman@mail.com:fe_pass:9999(pin):Z9Y8X7W6V5U4T3S2R1Q0P9O8N7M6L5K4(32 digitos)', NULL),
+(11, 'pure1def@mail.com:pkpass123:0000:B1C2D3E4F5G6H7I8J9K0L1M2N3O4P5Q6', NULL),
+(12, 'ironman@mail.com:fe_pass:9999:Z9Y8X7W6V5U4T3S2R1Q0P9O8N7M6L5K4', NULL),
 (13, 'OSRS-PREP-60D-AAAA-1234', NULL),
 (13, 'OSRS-PREP-60D-BBBB-5678', NULL),
 (14, 'OSRS-AMZN-7D-CCCC-9101', NULL),
 (14, 'OSRS-AMZN-7D-DDDD-1121', NULL),
 (14, 'OSRS-AMZN-7D-EEEE-3141', NULL);
+
+-- HU-03: Recarga
+INSERT IGNORE INTO transaccion_ledger (id_usuario, tipo_movimiento, monto) VALUES (6, 'Deposito', 5000.00);
+
+-- hu 11, orden compra carrito
+-- Cliente 6 compra Anuncio 1 (Gold)
+INSERT IGNORE INTO estado_orden (id, nombre) VALUES (2, 'Retenida_Escrow');
+INSERT IGNORE INTO chat (id, id_tipo_chat) VALUES (1, 1);
+INSERT IGNORE INTO chat_participante (id_chat, id_usuario) VALUES (1, 6), (1, 4);
+
+-- HU-11/18: Orden y Chat (Orden 1)
+INSERT IGNORE INTO chat (id, id_tipo_chat) VALUES (1, 1);
+INSERT IGNORE INTO chat_participante (id_chat, id_usuario) VALUES (1, 6), (1, 4);
+INSERT IGNORE INTO orden (id, id_cliente, id_anuncio, id_estado_orden, id_chat, cantidad, precio_unitario_historico, fee_plataforma, neto_vendedor_padre, comision_subvendedor) VALUES 
+(1, 6, 1, 2, 1, 100, 0.25, 2.50, 20.00, 2.50);
+
+-- Orden 2 (Cuenta ID 4)
+INSERT IGNORE INTO chat (id, id_tipo_chat) VALUES (2, 1);
+INSERT IGNORE INTO chat_participante (id_chat, id_usuario) VALUES (2, 6), (2, 5);
+INSERT IGNORE INTO orden (id, id_cliente, id_anuncio, id_estado_orden, id_chat, cantidad, precio_unitario_historico, fee_plataforma, neto_vendedor_padre, comision_subvendedor) VALUES 
+(2, 6, 4, 2, 2, 1, 1150.00, 10.00, 1140.00, 0.00);
+
+-- HU-18/19: Mensaje y Evidencia
+INSERT IGNORE INTO mensaje (id, id_chat, id_usuario_emisor, contenido) VALUES (1, 1, 6, 'Hola, estoy en Lumbridge F2P mundo 301');
+INSERT IGNORE INTO evidencia (id_mensaje, url) VALUES (1, 'https://getquipu.com/wp-content/uploads/2021/10/02155904/plantilla-de-excel-recibo-de-pago-1.png');
+
+-- HU-21: Disputa
+UPDATE orden SET id_estado_orden = 5 WHERE id = 1;
+INSERT IGNORE INTO disputa (id_orden, id_moderador, resolucion_tipo, justificacion_texto) VALUES 
+(1, 2, NULL, 'Comprador reporta que no recibió el oro, vendedor no responde.');
+
+

@@ -2,43 +2,48 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
-    <head>
-        <meta charset="UTF-8"/>
-        <title>Catálogo de Anuncios</title>
-    </head>
+    <head th:replace="~{general/fragmentos :: head}"/>
     <body>
-        <h2>Anuncios Activos</h2>
+        <header th:replace="~{general/fragmentos :: header}"/>
+        
+        <section th:replace="~{consultas/fragmentos :: tabs}"/>
 
-        <table border="1">
-            <thead>
-                <tr>
-                    <th>Titulo</th>
-                    <th>Precio</th>
-                    <th>Stock</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr th:each="anuncio : ${anuncios}">
-                    <td th:text="${anuncio.titulo}"></td>
-                    <td th:text="${anuncio.precioActual}"></td>
-                    <td th:text="${anuncio.stockGenerico != null ? anuncio.stockGenerico : 'Ilimitado'}"></td>
-                    <td>
-                        <form th:if="${anuncio.activo}" th:action="@{/anuncio/pausar}" method="post" style="display:inline;">
-                            <input type="hidden" name="idAnuncio" th:value="${anuncio.id}" />
-                            <input type="hidden" name="activo" th:value="false" />
-                            <input type="hidden" name="categoriaId" th:value="${anuncio.categoria.id}" />
-                            <button type="submit" style="background-color: #ff4d4d; color: white;">Pausar</button>
-                        </form>
+        <section class="container py-4">
+            <h2 th:text="#{anuncio.titulo_tabla}">Anuncios Activos</h2>
 
-                        <form th:if="${!anuncio.activo}" th:action="@{/anuncio/activar}" method="post" style="display:inline;">
-                            <input type="hidden" name="idAnuncio" th:value="${anuncio.id}" />
-                            <input type="hidden" name="categoriaId" th:value="${anuncio.categoria.id}" />
-                            <button type="submit" style="background-color: #4CAF50; color: white;">Activar</button>
-                        </form>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+            <table class="table table-striped table-hover align-middle shadow-sm mt-3">
+                <thead class="table-dark">
+                    <tr>
+                        <th th:text="#{anuncio.th_titulo}">Titulo</th>
+                        <th th:text="#{anuncio.th_precio}">Precio</th>
+                        <th th:text="#{anuncio.th_stock}">Stock</th>
+                        <th th:text="#{anuncio.th_acciones}">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="anuncio : ${anuncios}">
+                        <td th:text="${anuncio.titulo}"></td>
+                        <td th:text="'$' + ${anuncio.precioActual}" class="text-success fw-bold"></td>
+                        <td th:text="${anuncio.stockGenerico != null ? anuncio.stockGenerico : '#{anuncio.stock_ilimitado}'}"></td>
+                        <td>
+                            <form th:if="${anuncio.activo}" th:action="@{/anuncio/pausar}" method="post" style="display:inline;">
+                                <input type="hidden" name="idAnuncio" th:value="${anuncio.id}" />
+                                <input type="hidden" name="activo" th:value="false" />
+                                <input type="hidden" name="categoriaId" th:value="${anuncio.categoria.id}" />
+                                <button type="submit" class="btn btn-sm btn-danger" th:text="#{anuncio.btn_pausar}">Pausar</button>
+                            </form>
+
+                            <form th:if="${!anuncio.activo}" th:action="@{/anuncio/activar}" method="post" style="display:inline;">
+                                <input type="hidden" name="idAnuncio" th:value="${anuncio.id}" />
+                                <input type="hidden" name="categoriaId" th:value="${anuncio.categoria.id}" />
+                                <button type="submit" class="btn btn-sm btn-success" th:text="#{anuncio.btn_activar}">Activar</button>
+                            </form>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <footer th:replace="~{general/fragmentos :: footer}"/>
     </body>
 </html>
