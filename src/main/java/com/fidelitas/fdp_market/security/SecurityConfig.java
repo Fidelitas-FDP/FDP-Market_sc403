@@ -24,18 +24,33 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(csrf -> csrf.disable())
+                // ignorar jwt para thymeleafs
                 .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/css/**", "/js/**", "/img/**", "/webjars/**").permitAll()
-                .requestMatchers("/", "/index", "/producto/**", "/categoria/**").permitAll()
+                .requestMatchers("/", "/index", "/error").permitAll()
+                .requestMatchers("/usuario/**", "/categoria/**", "/anuncio/**", "/orden/**", "/disputa/**", "/chat/**").permitAll()
                 .requestMatchers("/api/auth/**").permitAll()
-                .requestMatchers("/", "/index", "/index.html", "/error").permitAll()
-                .requestMatchers("/producto/**", "/categoria/**").permitAll()
                 .anyRequest().authenticated()
                 )
+                
                 .sessionManagement(session -> session
                 .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
+                )
+                
+                .formLogin(form -> form
+                .loginPage("/login")
+                .permitAll()
                 );
-        http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+
+        // aplica jwt si solicitud entra por api
+        http.addFilterBefore((request, response, chain) -> {
+            String path = ((jakarta.servlet.http.HttpServletRequest) request).getRequestURI();
+            if (path.startsWith("/api/")) {
+                jwtFilter.doFilter(request, response, chain);
+            } else {
+                chain.doFilter(request, response);
+            }
+        }, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }

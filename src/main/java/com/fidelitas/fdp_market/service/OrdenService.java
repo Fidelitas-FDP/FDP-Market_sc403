@@ -10,7 +10,7 @@ import java.util.List;
 
 @Service
 public class OrdenService {
-    
+
     private final OrdenRepository ordenRepository;
     private final EstadoOrdenRepository estadoOrdenRepository;
     private final UsuarioRepository usuarioRepository;
@@ -20,7 +20,7 @@ public class OrdenService {
         this.estadoOrdenRepository = estadoOrdenRepository;
         this.usuarioRepository = usuarioRepository;
     }
-    
+
     // hu11 - crea orden, congela balance cliente para escrow
     @Transactional
     public Orden crearOrden(Long clienteId, Anuncio anuncio, int cantidad, String rsnComprador) {
@@ -28,7 +28,7 @@ public class OrdenService {
                 .orElseThrow(() -> new IllegalArgumentException("Cliente no existe"));
 
         BigDecimal costoTotal = anuncio.getPrecioActual().multiply(BigDecimal.valueOf(cantidad));
-        
+
         if (cliente.getSaldoBilletera().compareTo(costoTotal) < 0) {
             throw new IllegalStateException("Saldo insuficiente");
         }
@@ -64,10 +64,10 @@ public class OrdenService {
     public void marcarComoEntregado(Long ordenId) {
         Orden orden = ordenRepository.findById(ordenId)
                 .orElseThrow(() -> new IllegalArgumentException("Orden no encontrada"));
-        
+
         EstadoOrden estado = estadoOrdenRepository.findByNombre("Entregada_Manual")
                 .orElseThrow(() -> new IllegalArgumentException("Estado no encontrado"));
-        
+
         orden.setEstadoOrden(estado);
         ordenRepository.save(orden);
     }
@@ -87,7 +87,7 @@ public class OrdenService {
         // Vendedor recibe monto de escrow
         Usuario vendedor = orden.getAnuncio().getUsuario();
         vendedor.setSaldoBilletera(vendedor.getSaldoBilletera().add(orden.getNetoVendedorPadre()));
-        
+
         usuarioRepository.save(vendedor);
         ordenRepository.save(orden);
     }
@@ -96,5 +96,16 @@ public class OrdenService {
     public List<Orden> listarOrdenesPorCliente(Long clienteId) {
         return ordenRepository.findByClienteId(clienteId);
     }
-    
+
+    @Transactional
+    public void revertirAEscrow(Long ordenId) {
+        Orden orden = ordenRepository.findById(ordenId)
+                .orElseThrow(() -> new IllegalArgumentException("Orden no encontrada"));
+
+        EstadoOrden estado = estadoOrdenRepository.findByNombre("Retenida_Escrow")
+                .orElseThrow(() -> new IllegalArgumentException("Estado no encontrado"));
+
+        orden.setEstadoOrden(estado);
+        ordenRepository.save(orden);
+    }
 }

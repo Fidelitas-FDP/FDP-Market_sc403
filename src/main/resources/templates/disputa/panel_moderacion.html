@@ -2,30 +2,34 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
-<head>
-    <meta charset="UTF-8"/>
-    <title>Panel de Soporte</title>
-</head>
-<body>
-    <h2>Casos de Disputa Activos</h2>
-    <table border="1">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Orden Ref</th>
-                <th>Comprador</th>
-                <th>Accion</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr th:each="disp : ${disputas}">
-                <td th:text="${disp.id}"></td>
-                <td th:text="${disp.orden.id}"></td>
-                <td th:text="${disp.orden.cliente.correo}"></td>
-                <td>
-                    <a th:href="@{/disputa/detalle/{id}(id=${disp.id})}">Auditar Caso</a>
-                </td>
-            </tr>
-        </tbody>
-    </tbody>
+    <head th:replace="~{general/fragmentos :: head}"/>
+    <body>
+        <header th:replace="~{general/fragmentos :: header}"/>
+
+        <section class="container py-4">
+            <h2 class="mb-4" th:text="#{disputa.titulo_panel}">Casos de Disputa Activos</h2>
+            <table class="table table-striped table-hover align-middle shadow-sm">
+                <thead class="table-dark">
+                    <tr>
+                        <th>ID</th>
+                        <th th:text="#{disputa.th_orden}">Orden Ref</th>
+                        <th th:text="#{disputa.th_comprador}">Comprador</th>
+                        <th th:text="#{anuncio.th_acciones}">Accion</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="disp : ${disputas}">
+                        <td th:text="${disp.id}"></td>
+                        <td th:text="${disp.orden.id}"></td>
+                        <td th:text="${disp.orden.cliente.correo}"></td>
+                        <td>
+                            <a th:href="@{/disputa/detalle/{id}(id=${disp.id})}" class="btn btn-sm btn-outline-danger" th:text="#{disputa.link_auditar}">Auditar Caso</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <footer th:replace="~{general/fragmentos :: footer}"/>
+    </body>
 </html>

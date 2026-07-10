@@ -2,14 +2,22 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
-<head>
-    <meta charset="UTF-8"/>
-    <title>Categorias OSRS</title>
-</head>
-<body>
-    <h2>Categorias Principales de Mercado</h2>
-    <ul>
-        <li th:each="cat : ${categorias}" th:text="${cat.nombre}">Categoria</li>
-    </ul>
-</body>
+    <head th:replace="~{general/fragmentos :: head}"/>
+    <body>
+        <header th:replace="~{general/fragmentos :: header}"/>
+
+        <section class="container py-4" style="max-width: 600px;">
+            <h2 class="mb-4" th:text="#{nav.categorias}">Categorias</h2>
+            
+            <ul class="list-group shadow-sm">
+                <li th:each="cat : ${categorias}" 
+                    th:text="${cat.nombre}" 
+                    class="list-group-item list-group-item-action">
+                    Categoria
+                </li>
+            </ul>
+        </section>
+
+        <footer th:replace="~{general/fragmentos :: footer}"/>
+    </body>
 </html>

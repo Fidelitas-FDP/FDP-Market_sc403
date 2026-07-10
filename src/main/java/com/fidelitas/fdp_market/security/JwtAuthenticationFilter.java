@@ -1,12 +1,14 @@
 package com.fidelitas.fdp_market.security;
 
 import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
+import java.io.IOException;
 
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
@@ -19,8 +21,18 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         this.userDetailsService = userDetailsService;
     }
 
+    // desactiva filtro para vistas thymeleaf
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) {
+    protected boolean shouldNotFilter(HttpServletRequest request) {
+        String path = request.getRequestURI();
+        // aplica filtro si peticion a a api rest
+        return !path.startsWith("/api/");
+    }
+
+    @Override
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
+            throws ServletException, IOException {
+        
         try {
             String header = request.getHeader("Authorization");
             if (header != null && header.startsWith("Bearer ")) {
@@ -28,7 +40,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 
                 if (jwtUtils.validarToken(token)) {
                     String correo = jwtUtils.obtenerCorreoDelToken(token);
-                    // Carga el usuario y lo establece en el contexto de seguridad de Spring
                     var userDetails = userDetailsService.loadUserByUsername(correo);
                     var authentication = new org.springframework.security.authentication.UsernamePasswordAuthenticationToken(
                             userDetails, null, userDetails.getAuthorities());
@@ -37,13 +48,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                     SecurityContextHolder.getContext().setAuthentication(authentication);
                 }
             }
-            chain.doFilter(request, response);
         } catch (Exception e) {
-            // Si el token es inválido/expirado, limpia el contexto
+            // err 401 si ruta requiere auth
             SecurityContextHolder.clearContext();
-            try {
-                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Token inválido o expirado");
-            } catch (Exception ex) {}
+            System.out.println("Fallo validacion JWT: " + e.getMessage());
         }
+
+        chain.doFilter(request, response);
     }
 }

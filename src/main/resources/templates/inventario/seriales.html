@@ -2,25 +2,29 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
-    <head>
-        <meta charset="UTF-8"/>
-        <title>Inventario Stock Digital</title>
-    </head>
+    <head th:replace="~{general/fragmentos :: head}"/>
     <body>
-        <h2>Credenciales Disponibles para Venta</h2>
-        <table border="1">
-            <thead>
-                <tr>
-                    <th>ID Stock</th>
-                    <th>Datos Encriptados/Serial</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr th:each="item : ${seriales}">
-                    <td th:text="${item.id}"></td>
-                    <td th:text="${item.detalleCredencial}"></td>
-                </tr>
-            </tbody>
-        </table>
+        <header th:replace="~{general/fragmentos :: header}"/>
+
+        <section class="container py-4">
+            <h2 class="mb-4" th:text="#{anuncio.th_stock}">Stock</h2>
+            
+            <table class="table table-striped table-hover align-middle shadow-sm">
+                <thead class="table-dark">
+                    <tr>
+                        <th>ID Stock</th>
+                        <th>Datos Encriptados / Serial</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="item : ${seriales}">
+                        <td th:text="${item.id}"></td>
+                        <td><code th:text="${item.detalleCredencial}"></code></td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <footer th:replace="~{general/fragmentos :: footer}"/>
     </body>
 </html>
